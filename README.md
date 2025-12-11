@@ -44,11 +44,49 @@ Designed as a hackathon-ready MVP, FINCRAWL combines intelligent ingestion, sema
 
 ```mermaid
 graph TD
-    A[Ingestion (EDGAR + RSS)] --> B(Parsing + Cleaning)
-    B --> C(Embedding + Vector Indexing)
-    C --> D(Risk Scoring Engine)
-    D --> E(FastAPI API)
-    E --> F(Frontend React)
+    subgraph Data_Sources [External Data]
+        SEC[SEC EDGAR (10-K/8-K)]
+        RSS[Financial News RSS]
+    end
+
+    subgraph Backend [FastAPI + Celery Engine]
+        Crawler[Async Crawler]
+        Parser[Text Parser]
+        Scorer[Risk Signal Engine]
+        Embedder[Vector Embedder]
+    end
+
+    subgraph Persistence [Local-First Storage]
+        SQLite[(SQLite Metadata)]
+        Chroma[(ChromaDB Vectors)]
+        FS[Local Filesystem]
+    end
+
+    subgraph Frontend [React Deployment]
+        UI[Dashboard UI]
+        Viz[Risk Visualizations]
+        Analysis[AI Analysis Modal]
+    end
+
+    %% Ingestion Flow
+    SEC --> Crawler
+    RSS --> Crawler
+    Crawler --> Parser
+    
+    %% Processing Flow
+    Parser --> FS
+    Parser --> SQLite
+    Parser --> Scorer
+    Parser --> Embedder
+    
+    %% Storage Flow
+    Scorer -->|Risk Score| SQLite
+    Embedder -->|Embeddings| Chroma
+    
+    %% User Flow
+    SQLite -->|JSON Data| UI
+    Chroma -->|RAG Search| UI
+    Scorer -->|Alerts| Viz
 ```
 
 ## 🧰 Tech Stack
