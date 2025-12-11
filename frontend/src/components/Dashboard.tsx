@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { AlertCircle, FileText, CheckCircle, Search } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
 import { clsx } from 'clsx';
-import { twMerge } from 'tailwind-merge';
+
 
 interface Document {
     id: number;
