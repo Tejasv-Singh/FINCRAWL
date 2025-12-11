@@ -1,62 +1,156 @@
-# FINCRAWL: Autonomous Filings + Disclosures Early-Warning System
+# 🚨 FINCRAWL — Autonomous Financial Filings Early-Warning System
 
-Fincrawl is a hackathon-ready financial intelligence platform that ingests SEC filings and News RSS, processes them using RAG (Retrieval Augmented Generation), and flags high-risk events (bankruptcy, fraud, default) using an autonomous scoring engine.
+**AI-powered risk detection from SEC filings, corporate disclosures, and financial news.**
 
-## Features
-- **Autonmous Ingestion**: Crawls SEC EDGAR (10-K, 8-K) and RSS feeds.
-- **RAG & Vector Search**: Semantically indexes documents using ChromaDB and SentenceTransformers.
-- **Risk Scoring**: Heuristic signal engine detects "material weakness", "going concern", and other red flags.
-- **Dashboard**: React-based UI for real-time risk monitoring.
+FINCRAWL is an autonomous financial intelligence platform that continuously ingests SEC EDGAR filings and news streams, processes them with RAG (Retrieval-Augmented Generation), and detects high-risk signals such as going-concern warnings, material weaknesses, accounting anomalies, distress clues, and fraud indicators.
 
-## Tech Stack
-- **Backend**: Python (FastAPI), Celery (Worker), SQLite, ChromaDB (Vector Store).
-- **Frontend**: React, Vite, TailwindCSS.
-- **Infrastructure**: Local MVP mode (No Docker required).
+Designed as a hackathon-ready MVP, FINCRAWL combines intelligent ingestion, semantic search, automated reasoning, and real-time dashboards — enabling analysts, investors, auditors, and regulators to understand emerging risks before markets react.
 
-## Quick Start
+## ✨ Key Features
 
-### Prerequisites
-- Python 3.10+
-- Node.js 18+
+### ⚙️ Autonomous Ingestion Pipeline
+- Crawls SEC EDGAR filings (10-K, 10-Q, 8-K).
+- Monitors RSS financial news feeds in real time.
+- Extracts text from HTML/PDF filings.
+- Normalizes documents into structured JSON.
 
-### 1. Setup Backend
+### 🔍 Semantic RAG Engine
+- Embeds filings using SentenceTransformers.
+- Stores vectors in ChromaDB for fast similarity search.
+- Provides source-grounded, citation-backed answers using a lightweight RAG pipeline.
+
+### 🚨 Risk Scoring & Event Detection
+- **Detects red-flag patterns including:**
+  - “Going concern” remarks
+  - “Material weakness in internal controls”
+  - Executive resignations
+  - Litigation disclosures
+  - Sudden financial restatements
+  - Negative sentiment shifts
+  - Bankruptcy precursors
+- **Scores are produced by a hybrid engine:**
+  - Rule-based heuristics
+  - Pattern classifiers
+  - Semantic similarity to known risk templates
+
+### 📊 Interactive Dashboard (React)
+- Company-level risk panel
+- Time-series score visualization
+- Highlighted risk excerpts
+- Filings viewer
+- Search & filtering
+
+## 🏗️ Architecture Overview
+
+```mermaid
+graph TD
+    A[Ingestion (EDGAR + RSS)] --> B(Parsing + Cleaning)
+    B --> C(Embedding + Vector Indexing)
+    C --> D(Risk Scoring Engine)
+    D --> E(FastAPI API)
+    E --> F(Frontend React)
+```
+
+## 🧰 Tech Stack
+
+- **Backend**: Python 3.10+, FastAPI, Celery (async workers), ChromaDB (vector store), SQLite, SentenceTransformers
+- **Frontend**: React + Vite, TailwindCSS, Recharts
+- **Infrastructure**: Local development (No Docker needed), Makefile-based orchestration, Lightweight deployment
+
+## 🚀 Quick Start
+
+### 1️⃣ Clone the Repository
 ```bash
-# Create venv and install dependencies
+git clone https://github.com/Tejasv-Singh/FINCRAWL
+cd FINCRAWL
+```
+
+### 2️⃣ Backend Setup
+```bash
 python3 -m venv venv
 source venv/bin/activate
 pip install -r backend/requirements.txt
 ```
 
-### 2. Setup Frontend
+Run backend:
+```bash
+make run-backend
+```
+Backend runs at → `http://localhost:8001`
+
+### 3️⃣ Frontend Setup
 ```bash
 cd frontend
 npm install
-cd ..
+npm run dev
 ```
+Frontend runs at → `http://localhost:5173`
 
-### 3. Run Application
-Use the Makefile for convenience:
+### 4️⃣ Start Full System
 ```bash
 make run-all
 ```
-This will start:
-- Backend API at `http://localhost:8001`
-- Frontend Dashboard at `http://localhost:5173`
+This launches:
+- FastAPI backend
+- RAG engine
+- React dashboard
 
-### 4. Trigger Ingestion
-To start crawling data:
+## 📑 Data Ingestion
+
+To manually trigger document ingestion:
 ```bash
 make crawl
 ```
+This supports SEC EDGAR RSS feeds and Company filings (10-K, 8-K).
 
-### 5. Run Backtest
-To validate the risk scoring logic:
+## 🧪 Backtesting
+
+Evaluate the risk-scoring engine against historical filings:
 ```bash
 make backtest
 ```
+Outputs: Precision/Recall and Risk validation status.
 
-## Directory Structure
-- `backend/`: FastAPI application and processing logic.
-- `frontend/`: React dashboard.
-- `scripts/`: Utility scripts (backtesting).
+## 📂 Project Structure
 
+```bash
+FINCRAWL/
+│
+├── backend/
+│   ├── app/
+│   │   ├── api/          # FastAPI routes
+│   │   ├── crawlers/     # SEC EDGAR + RSS crawlers
+│   │   ├── parsers/      # Parsing logic
+│   │   ├── services/     # Scoring, Alerting, VectorDB
+│   │   ├── worker/       # Celery tasks
+│   │   └── db/           # Database models
+│   └── requirements.txt
+│
+├── frontend/
+│   ├── src/
+│   │   ├── components/   # UI components
+│   │   └── App.tsx       # Main view
+│   └── package.json
+│
+├── scripts/
+│   └── backtest_scoring.py
+│
+├── Makefile
+└── README.md
+```
+
+## 🧠 Roadmap (Post-Hackathon)
+- [ ] Whisper-powered earnings call transcription
+- [ ] Advanced anomaly detection (Autoencoders, BERT-based classifiers)
+- [ ] Multi-jurisdiction filings (SEBI, FCA, ASX)
+- [ ] Real-time alert system (Slack/Email)
+- [ ] Multi-agent “Analyst Copilot”
+- [ ] Full company knowledge graph
+- [ ] Sentiment delta modeling
+
+## ❤️ Acknowledgements
+FINCRAWL was built for **SNOW FEST Hackathon 2025**, with the mission of democratizing financial risk intelligence.
+
+## 📬 Contact
+- **Developer**: Tejasv Singh
+- **GitHub**: [https://github.com/Tejasv-Singh](https://github.com/Tejasv-Singh)
