@@ -45,8 +45,8 @@ Designed as a hackathon-ready MVP, FINCRAWL combines intelligent ingestion, sema
 ```mermaid
 graph TD
     subgraph Data_Sources [External Data]
-        SEC[SEC EDGAR (10-K/8-K)]
-        RSS[Financial News RSS]
+        SEC["SEC EDGAR (10-K/8-K)"]
+        RSS["Financial News RSS"]
     end
 
     subgraph Backend [FastAPI + Celery Engine]
@@ -57,9 +57,9 @@ graph TD
     end
 
     subgraph Persistence [Local-First Storage]
-        SQLite[(SQLite Metadata)]
-        Chroma[(ChromaDB Vectors)]
-        FS[Local Filesystem]
+        SQLite[("SQLite Metadata")]
+        Chroma[("ChromaDB Vectors")]
+        FS[("Local Filesystem")]
     end
 
     subgraph Frontend [React Deployment]
